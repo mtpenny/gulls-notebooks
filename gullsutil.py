@@ -337,7 +337,7 @@ def deredden_sodc(df,filt,R_V=2.5):
 
 
 
-def ssn(x):
+def in_season(x):
     '''
     Compute whether a time falls inside a simulated roman season
 
