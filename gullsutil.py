@@ -334,3 +334,68 @@ def deredden_sodc(df,filt,R_V=2.5):
 
     df[f'Lens_{filt}_0'] = df[f'Lens_{filt}'] - df['Lens_A_Ks']*extratio
     df[f'Source_{filt}_0'] = df[f'Source_{filt}'] - df['Source_A_Ks']*extratio
+
+
+
+def ssn(x):
+    '''
+    Compute whether a time falls inside a simulated roman season
+
+    Parameters
+    ----------
+    x : array or scalar (float)
+        time or times
+
+    Returns
+    ----------
+    array or scalar (int) (same shape as input) 
+        a positive integer indicating the season if the time is inside 
+        the season, or 0 or negative integer if it is outside, with negative
+        numbers indicating it is directly after the season or 0 before all 
+        seasons
+    '''
+
+    
+    if np.isscalar(x):
+        if x<112.5:
+            return 0
+        if x<=184.5:
+            return 1
+        if x<292.25:
+            return -1
+        if x<=364.25:
+            return 2
+        if x<477.75:
+            return -2
+        if x<=549.75:
+            return 3
+        if x<1388.0:
+            return -3
+        if x<=1460.0:
+            return 4
+        if x<1573.5:
+            return -4
+        if x<=1645.5:
+            return 5
+        if x<1753.25:
+            return -5
+        if x<=1825.25:
+            return 6
+        return -6
+    else:
+        ret = x*0+99
+        ret[(ret==99) * (x<112.5)] = 0
+        ret[(ret==99) * (x<=184.5)] = 1
+        ret[(ret==99) * (x<292.25)] = -1
+        ret[(ret==99) * (x<=364.25)] = 2
+        ret[(ret==99) * (x<477.75)] = -2
+        ret[(ret==99) * (x<=549.75)] = 3
+        ret[(ret==99) * (x<1388.0)] = -3
+        ret[(ret==99) * (x<=1460.0)] = 4
+        ret[(ret==99) * (x<1573.5)] = -4
+        ret[(ret==99) * (x<=1645.5)] = 5
+        ret[(ret==99) * (x<1753.25)] = -5
+        ret[(ret==99) * (x<=1825.25)] = 6
+        ret[ret==99] = -6
+
+    return ret
